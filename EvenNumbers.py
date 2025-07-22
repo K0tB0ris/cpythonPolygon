@@ -8,7 +8,7 @@ class EvenNumbers:
         Returns the iterator object itself.
         This method is called when iter() is used on an instance of this class.
         """
-        #self.current = 0
+        # self.current = 0
         return self
 
     def changecurrent(self, numb):

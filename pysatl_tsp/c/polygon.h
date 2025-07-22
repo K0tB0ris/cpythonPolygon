@@ -1,5 +1,12 @@
 typedef struct _object PyObject;
 
+struct Handler {
+	void *data;
+	struct Handler *source;
+	int (*cmp)(void *, void *);
+	void *module;
+};
+
 int applyHandler(struct Handler *handler);
 int sumInt(void *first, void *second);
 int multInt(void *first, void *second);
