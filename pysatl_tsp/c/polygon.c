@@ -1,15 +1,10 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <stdio.h>
+#include "polygon.h"
 
 #define error(...) (fprintf(stderr, __VA_ARGS__))
 
-struct Handler {
-	void *data;
-	struct Handler *source;
-	int (*cmp)(void *, void *);
-	void *module;
-};
 
 int sumInt(void *first, void *second) {
 	int *one = (int *)first;

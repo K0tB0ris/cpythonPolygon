@@ -925,6 +925,18 @@ _cffi_f_sumInt(PyObject *self, PyObject *args)
 #  define _cffi_f_sumInt _cffi_d_sumInt
 #endif
 
+_CFFI_UNUSED_FN
+static void _cffi_checkfld_struct_Handler(struct Handler *p)
+{
+  /* only to generate compile-time warnings or errors */
+  (void)p;
+  { void * *tmp = &p->data; (void)tmp; }
+  { struct Handler * *tmp = &p->source; (void)tmp; }
+  { int(* *tmp)(void *, void *) = &p->cmp; (void)tmp; }
+  { void * *tmp = &p->module; (void)tmp; }
+}
+struct _cffi_align_struct_Handler { char x; struct Handler y; };
+
 static const struct _cffi_global_s _cffi_globals[] = {
   { "applyHandler", (void *)_cffi_f_applyHandler, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 0), (void *)_cffi_d_applyHandler },
   { "createHandler", (void *)_cffi_f_createHandler, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 10), (void *)_cffi_d_createHandler },
@@ -935,9 +947,24 @@ static const struct _cffi_global_s _cffi_globals[] = {
   { "sumInt", (void *)_cffi_f_sumInt, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 3), (void *)_cffi_d_sumInt },
 };
 
+static const struct _cffi_field_s _cffi_fields[] = {
+  { "data", offsetof(struct Handler, data),
+            sizeof(((struct Handler *)0)->data),
+            _CFFI_OP(_CFFI_OP_NOOP, 4) },
+  { "source", offsetof(struct Handler, source),
+              sizeof(((struct Handler *)0)->source),
+              _CFFI_OP(_CFFI_OP_NOOP, 1) },
+  { "cmp", offsetof(struct Handler, cmp),
+           sizeof(((struct Handler *)0)->cmp),
+           _CFFI_OP(_CFFI_OP_NOOP, 13) },
+  { "module", offsetof(struct Handler, module),
+              sizeof(((struct Handler *)0)->module),
+              _CFFI_OP(_CFFI_OP_NOOP, 4) },
+};
+
 static const struct _cffi_struct_union_s _cffi_struct_unions[] = {
-  { "Handler", 21, _CFFI_F_OPAQUE,
-    (size_t)-1, -1, -1, 0 /* opaque */ },
+  { "Handler", 21, _CFFI_F_CHECK_FIELDS,
+    sizeof(struct Handler), offsetof(struct _cffi_align_struct_Handler, y), 0, 4 },
   { "_object", 19, _CFFI_F_OPAQUE,
     (size_t)-1, -1, -1, 0 /* opaque */ },
 };
@@ -949,7 +976,7 @@ static const struct _cffi_typename_s _cffi_typenames[] = {
 static const struct _cffi_type_context_s _cffi_type_context = {
   _cffi_types,
   _cffi_globals,
-  NULL,  /* no fields */
+  _cffi_fields,
   _cffi_struct_unions,
   NULL,  /* no enums */
   _cffi_typenames,
