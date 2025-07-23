@@ -8,6 +8,7 @@ __pycache__/
 
 # C object files
 *.o
+*/_c*
 
 # Distribution / packaging
 .Python
