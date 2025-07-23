@@ -1,25 +1,40 @@
 #define PY_SSIZE_T_CLEAN
+#include "polygon.h"
 #include <Python.h>
 #include <stdio.h>
-#include "polygon.h"
 
 #define error(...) (fprintf(stderr, __VA_ARGS__))
 
-
-int sumInt(void *first, void *second) {
-	int *one = (int *)first;
-	int *two = (int *)second;
-	int sum = 0;
+float sumFloat(void *first, void *second) {
+	float *one = (float *)first;
+	float *two = (float *)second;
+	float sum = 0;
 	sum = *one + *two;
 	return sum;
 }
 
-int multInt(void *first, void *second) {
+float multFloat(void *first, void *second) {
+	float *one = (float *)first;
+	float *two = (float *)second;
+	float sum = 0;
+	sum = *one * *two;
+	return sum;
+}
+
+float sumInt(void *first, void *second) {
+	int *one = (int *)first;
+	int *two = (int *)second;
+	int sum = 0;
+	sum = *one + *two;
+	return (float)sum;
+}
+
+float multInt(void *first, void *second) {
 	int *one = (int *)first;
 	int *two = (int *)second;
 	int sum = 0;
 	sum = *one * *two;
-	return sum;
+	return (float)sum;
 }
 
 void seeHandler(struct Handler *handler) {
@@ -53,7 +68,40 @@ int applyHandler(struct Handler *handler) {
 	return -1;
 }
 
-struct Handler *createHandler(void *data, struct Handler *source, int (*cmp)(void *, void *),
+float *applyOperation(struct Handler *handler, int *length) {
+	if (handler == NULL) {
+		error("Handler pointer is NULL \n");
+		return NULL;
+	}
+	if (handler->source == NULL) {
+		error("Handler source pointer is NULL \n");
+		return NULL;
+	}
+	if (handler->source->module == NULL) {
+		error("PythonModule pointer is NULL \n");
+		return NULL;
+	}
+	PyGILState_STATE gstate = PyGILState_Ensure();
+	PyObject *obj = (PyObject *)handler->source->module;
+	PyObject *pInstance = obj;
+	PyObject *pIterator = PyObject_GetIter(pInstance);
+	PyObject *pItem;
+	float magic = 3.14;
+	float *res = NULL;
+	int i = 0;
+	while ((pItem = PyIter_Next(pIterator)) != NULL) {
+		i++;
+		res = (float *)realloc(res, (i + 1) * sizeof(float));
+		float tmp = (float)PyFloat_AsDouble(pItem);
+		tmp = handler->cmp((void *)&tmp, (void *)&magic);
+		res[i - 1] = tmp;
+	}
+	PyGILState_Release(gstate);
+	*length = i;
+	return res;
+}
+
+struct Handler *createHandler(void *data, struct Handler *source, float (*cmp)(void *, void *),
 			      void *pyobj) {
 	struct Handler *obj = malloc(sizeof(struct Handler));
 	if (obj == NULL) {
@@ -78,6 +126,13 @@ struct Handler *getSource(struct Handler *handler) {
 		return NULL;
 	}
 	return handler->source;
+}
+
+void *getPipelineFirst(struct Handler *handler) {
+	if (handler->source == NULL) {
+		return handler->module;
+	}
+	return getPipelineFirst(handler->source);
 }
 
 /*

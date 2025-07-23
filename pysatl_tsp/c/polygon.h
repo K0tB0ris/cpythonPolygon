@@ -3,15 +3,19 @@ typedef struct _object PyObject;
 struct Handler {
 	void *data;
 	struct Handler *source;
-	int (*cmp)(void *, void *);
+	float (*cmp)(void *, void *);
 	void *module;
 };
 
+float *applyOperation(struct Handler *handler, int *length);
 int applyHandler(struct Handler *handler);
-int sumInt(void *first, void *second);
-int multInt(void *first, void *second);
-struct Handler *createHandler(void *data, struct Handler *source, int (*cmp)(void *, void *),
+float sumFloat(void *first, void *second);
+float multFloat(void *first, void *second);
+float sumInt(void *first, void *second);
+float multInt(void *first, void *second);
+struct Handler *createHandler(void *data, struct Handler *source, float (*cmp)(void *, void *),
 			      void *pyobj);
 void seeHandler(struct Handler *handler);
 struct Handler *getSource(struct Handler *handler);
 void freeHandler(struct Handler *handler);
+void free(void *);
