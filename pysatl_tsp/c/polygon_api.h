@@ -1,12 +1,4 @@
-#ifndef INCLUDE_C_POLYGON_H_
-#define INCLUDE_C_POLYGON_H_
-
-struct tsp_handler {
-	void *py_object;
-	struct tsp_handler *source;
-	int (*transform)(struct tsp_handler *this, int value);
-};
-
+struct tsp_handler; 
 
 int tsp_next_int(struct tsp_handler *handler);
 struct tsp_handler *tsp_handler_init(void *py_object, struct tsp_handler *src,
@@ -15,8 +7,4 @@ void tsp_handler_free(struct tsp_handler *handler);
 
 int tsp_handle_int_add(struct tsp_handler *handler, int value);
 
-
-
-int tsp_python_next_int(void *py_object);
-
-#endif // INCLUDE_C_POLYGON_H_
+extern "Python+C" int tsp_python_next_int(void *py_object);

@@ -14,16 +14,24 @@ headers = ''
 src = []
 
 # Read and get C headers
-for item in project_dir.rglob("*.h"):
+for item in project_dir.rglob("*api.h"):
     with open(item, "r") as f:
         c_def += f.read()
-        headers += f"#include \"{item.relative_to(project_dir)}\"\n"
+
+header_file = pathlib.Path(project_dir, "c", "polygon.h")
+headers += f"#include \"{header_file.relative_to(project_dir)}\"\n"
 
 # Get list of path to all *.c files
 for item in (project_dir / c_sources).rglob("*.c"):
     src.append(str(item.relative_to(current_dir)))
 
 # Set options to compile C library
+print("HEADERS")
+print(headers)
+print("SOURCES")
+print(src)
+print("CDEF")
+print(c_def)
 ffibuilder.set_source(f"{project_name}._c", headers, sources=src)
 ffibuilder.cdef(c_def)
 
