@@ -22,18 +22,26 @@ float multFloat(void *first, void *second) {
 }
 
 float sumInt(void *first, void *second) {
-	int *one = (int *)first;
-	int *two = (int *)second;
-	int sum = 0;
+	float *one = (float *)first;
+	float *two = (float *)second;
+	float sum = 0;
 	sum = *one + *two;
 	return (float)sum;
 }
 
 float multInt(void *first, void *second) {
-	int *one = (int *)first;
-	int *two = (int *)second;
-	int sum = 0;
+	float *one = (float *)first;
+	float *two = (float *)second;
+	float sum = 0;
 	sum = *one * *two;
+	return (float)sum;
+}
+
+float sumdiv(void *first, void *second) {
+	float *one = (float *)first;
+	float *two = (float *)second;
+	float sum = 0;
+	sum = (*one + *two) / *two;
 	return (float)sum;
 }
 
@@ -149,10 +157,7 @@ struct Handler *createHandler(void *data, struct Handler *source, float (*cmp)(v
 	return obj;
 }
 
-void freeHandler(struct Handler *handler) {
-	free(handler);
-	handler = NULL;
-}
+void freeHandler(struct Handler *handler) { free(handler); }
 
 struct Handler *getSource(struct Handler *handler) {
 	if (handler == NULL) {

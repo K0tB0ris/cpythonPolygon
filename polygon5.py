@@ -37,7 +37,6 @@ class CPIHandler(Handler[float, float]):
         freeHandler(self.handler)
 
 
-
 from pysatl_tsp.core.data_providers import CSimpleDataProvider
 
 data = [1.5]
