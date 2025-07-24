@@ -9,6 +9,7 @@ from typing import (
 )
 import cffi
 from pysatl_tsp._c.lib import *
+
 ffi = cffi.FFI()
 
 __all__ = ["Handler", "T", "U", "V"]
