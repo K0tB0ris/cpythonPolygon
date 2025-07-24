@@ -22,17 +22,17 @@ float multFloat(void *first, void *second) {
 }
 
 float sumInt(void *first, void *second) {
-	float *one = (float *)first;
-	float *two = (float *)second;
-	float sum = 0;
+	int *one = (int *)first;
+	int *two = (int *)second;
+	int sum = 0;
 	sum = *one + *two;
 	return (float)sum;
 }
 
 float multInt(void *first, void *second) {
-	float *one = (float *)first;
-	float *two = (float *)second;
-	float sum = 0;
+	int *one = (int *)first;
+	int *two = (int *)second;
+	int sum = 0;
 	sum = *one * *two;
 	return (float)sum;
 }
@@ -49,6 +49,11 @@ void seeHandler(struct Handler *handler) {
 	struct Handler tt = *handler;
 	printf("%p %p %p %p \n", tt.data, tt.source, tt.cmp, tt.module);
 }
+
+/* applyHandler берет из хенделера модуль (python class)
+ * Из него достаёт итератор
+ * и идёт по нему
+ */
 
 int applyHandler(struct Handler *handler) {
 	if (handler == NULL) {
@@ -70,11 +75,16 @@ int applyHandler(struct Handler *handler) {
 		tmp = handler->cmp((void *)&tmp, (void *)&one);
 		printf("%d \n", tmp);
 		PyGILState_Release(gstate);
-		return tmp;
+		return (int)tmp;
 	}
 	PyGILState_Release(gstate);
 	return -1;
 }
+
+/* applyOperation берет из source хендлера модуль (python class)
+ * Из него достаёт итератор
+ * Применяет свою операцию к элементам из полученного итератора
+ */
 
 float *applyOperation(struct Handler *handler, int *length) {
 	if (handler == NULL) {
@@ -109,6 +119,10 @@ float *applyOperation(struct Handler *handler, int *length) {
 	return res;
 }
 
+/* applyIter берет из  хендлера итератор
+ * Применяет свою операцию к элементам из итератора
+ */
+
 float *applyIter(struct Handler *handler, int *length) {
 	if (handler == NULL) {
 		error("Handler pointer is NULL \n");
@@ -116,10 +130,6 @@ float *applyIter(struct Handler *handler, int *length) {
 	}
 	if (handler->source == NULL) {
 		error("Handler source pointer is NULL \n");
-		return NULL;
-	}
-	if (handler->source->module == NULL) {
-		error("PythonModule pointer is NULL \n");
 		return NULL;
 	}
 	PyGILState_STATE gstate = PyGILState_Ensure();
@@ -143,6 +153,10 @@ float *applyIter(struct Handler *handler, int *length) {
 	return res;
 }
 
+/* nextBuffer аналогичен applyIter
+ * Но достает по несколько элементов из итератора
+ */
+
 float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
 	if (handler == NULL) {
 		error("Handler pointer is NULL \n");
@@ -150,10 +164,6 @@ float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
 	}
 	if (handler->source == NULL) {
 		error("Handler source pointer is NULL \n");
-		return NULL;
-	}
-	if (handler->source->module == NULL) {
-		error("PythonModule pointer is NULL \n");
 		return NULL;
 	}
 	PyGILState_STATE gstate = PyGILState_Ensure();
@@ -181,8 +191,14 @@ float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
 	return res;
 }
 
+/* operationchain реализуют цепочку операций
+ * Работает рекурсивно
+ * Идет по цепочке, пока не встретит handler(NULL, float)
+ * И дальше последовательно применяет к данным операции
+ */
+
 float *operationchain(struct Handler *handler, int *length, int buf_size, float *res) {
-	if (handler->source->source == NULL) {
+	if (handler->source->source == NULL) { // Нашли handler(NULL, float)
 		PyGILState_STATE gstate = PyGILState_Ensure();
 		PyObject *pIterator = (PyObject *)handler->module;
 		Py_INCREF(pIterator);
@@ -190,6 +206,7 @@ float *operationchain(struct Handler *handler, int *length, int buf_size, float 
 		res = NULL;
 		int i = 0;
 		float magic = 3.14;
+		// Достаём из итератора buf_size элементов, применяем операцию и записываем в массив
 		for (int j = 0; j < buf_size; j++) {
 			if ((pItem = PyIter_Next(pIterator)) != NULL) {
 				i++;
@@ -205,12 +222,15 @@ float *operationchain(struct Handler *handler, int *length, int buf_size, float 
 		Py_DECREF(pIterator);
 		PyGILState_Release(gstate);
 		*length = i;
+		// Возвращаем массив с данными
 		return res;
 	} else {
+		// Рекурсивно идём по source, пока не дойдем до handler(NULL, float)
 		res = operationchain(handler->source, length, buf_size, res);
 		if (res == NULL) {
 			return NULL;
 		}
+		// Применяем операцию к массиву с данными от прыдыдущей операции
 		int i = 0;
 		float magic = 3.14;
 		for (int j = 0; j < *length; j++) {
