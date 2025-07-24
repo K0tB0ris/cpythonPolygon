@@ -23,4 +23,3 @@ class CSimpleDataProvider(DataProvider[float]):
         :return: An iterator yielding items from the data collection
         """
         yield from self.data
-
