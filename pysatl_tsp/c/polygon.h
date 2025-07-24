@@ -21,3 +21,4 @@ float sumInt(void *first, void *second);
 float multInt(void *first, void *second);
 float *applyIter(struct Handler *handler, int *length);
 float sumdiv(void *first, void *second);
+float *nextBuffer(struct Handler *handler, int *length, int buf_size);
