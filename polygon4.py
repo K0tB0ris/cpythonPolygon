@@ -21,10 +21,15 @@ class CPIHandler(Handler[float, float]):
             raise ValueError("Source is not set")
 
         length = ffi.new("int *")
-        res = applyOperation(self.handler, length)
-        tmp = ffi.unpack(res, length[0])
-        ffi.gc(res, free)
-        yield from tmp
+        itr = iter(self.source)
+        py_obj = ffi.cast("void*", id(itr))
+        self.handler.module = py_obj
+        res = applyIter(self.handler, length)
+        while (res != ffi.NULL):
+            tmp = ffi.unpack(res, length[0])
+            ffi.gc(res, free)
+            yield tmp[0]
+            res = applyIter(self.handler, length)
 
 
 from pysatl_tsp.core.data_providers import CSimpleDataProvider
@@ -34,7 +39,12 @@ for i in range(1, 10):
     data.append(data[0] + i)
 print(data)
 provider = CSimpleDataProvider(data)
+for elem in provider:
+    print(elem)
+
 pipeline = (provider | CPIHandler())
 for elem in pipeline:
     print(elem, end=" ")
 print()
+for elem in CPIHandler(provider):
+    print(elem)
