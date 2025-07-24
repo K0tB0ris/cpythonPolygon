@@ -5,13 +5,16 @@ from .abstract import DataProvider
 from pysatl_tsp._c.lib import *
 import cffi
 
+ffi = cffi.FFI()
+
+
 class CSimpleDataProvider(DataProvider[float]):
 
     def __init__(self, data: Iterable[float]) -> None:
         ffi = cffi.FFI()
         super().__init__()
         self.data = data
-        self.handler = createHandler(ffi.NULL, ffi.NULL, sumFloat, ffi.cast("void *", id(self)))
+        self.handler = createHandler(ffi.NULL, ffi.NULL, sumFloat, ffi.NULL)
 
     def __iter__(self) -> Iterator[float]:
         """Create an iterator over the provided data collection.
@@ -22,4 +25,5 @@ class CSimpleDataProvider(DataProvider[float]):
 
         :return: An iterator yielding items from the data collection
         """
+
         yield from self.data

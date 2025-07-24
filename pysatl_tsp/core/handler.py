@@ -108,9 +108,10 @@ class Pipeline(Handler[T, V]):
 
         self.second = second
         self.second.source = self.first
-        if hasattr(self.first, 'handler'):
-            if hasattr(self.second, 'handler'):
+        if hasattr(self.second, 'handler'):
+            if hasattr(self.first, 'handler'):
                 self.second.handler.source = self.first.handler
+                self.handler = self.second.handler
 
     def __iter__(self) -> Iterator[V]:
         """Create an iterator that processes data through both handlers in sequence.
