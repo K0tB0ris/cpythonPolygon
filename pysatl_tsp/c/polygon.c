@@ -143,6 +143,44 @@ float *applyIter(struct Handler *handler, int *length) {
 	return res;
 }
 
+float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
+	if (handler == NULL) {
+		error("Handler pointer is NULL \n");
+		return NULL;
+	}
+	if (handler->source == NULL) {
+		error("Handler source pointer is NULL \n");
+		return NULL;
+	}
+	if (handler->source->module == NULL) {
+		error("PythonModule pointer is NULL \n");
+		return NULL;
+	}
+	PyGILState_STATE gstate = PyGILState_Ensure();
+	PyObject *pIterator = (PyObject *)handler->module;
+	Py_INCREF(pIterator);
+	PyObject *pItem;
+	float magic = 3.14;
+	float *res = NULL;
+	int i = 0;
+	for (int j = 0; j < buf_size; j++) {
+		if ((pItem = PyIter_Next(pIterator)) != NULL) {
+			i++;
+			res = (float *)realloc(res, (i + 1) * sizeof(float));
+			float tmp = (float)PyFloat_AsDouble(pItem);
+			tmp = handler->cmp((void *)&tmp, (void *)&magic);
+			res[i - 1] = tmp;
+			Py_DECREF(pItem);
+		} else {
+			break;
+		}
+	}
+	Py_DECREF(pIterator);
+	PyGILState_Release(gstate);
+	*length = i;
+	return res;
+}
+
 struct Handler *createHandler(void *data, struct Handler *source, float (*cmp)(void *, void *),
 			      void *pyobj) {
 	struct Handler *obj = malloc(sizeof(struct Handler));

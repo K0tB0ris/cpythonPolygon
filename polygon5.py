@@ -21,17 +21,21 @@ class CPIHandler(Handler[float, float]):
             raise ValueError("Source is not set")
         self.src_itr = iter(self.source)
         self.handler.module = ffi.cast("void*", id(self.src_itr))
+        self.buf = []
         return self
 
     def __next__(self):
-        length = ffi.new("int [1]")
-        res = applyIter(self.handler, length)
-        if res != ffi.NULL:
-            tmp = ffi.unpack(res, length[0])
-            ffi.gc(res, free)
-            return tmp[0]
+        if (self.buf):
+            return self.buf.pop(0)
         else:
-            raise StopIteration
+            length = ffi.new("int [1]")
+            res = nextBuffer(self.handler, length, 5)
+            if res != ffi.NULL:
+                self.buf = ffi.unpack(res, length[0])
+                ffi.gc(res, free)
+                return self.buf.pop(0)
+            else:
+                raise StopIteration
 
     def __del__(self):
         freeHandler(self.handler)
