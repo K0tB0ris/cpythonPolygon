@@ -181,6 +181,49 @@ float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
 	return res;
 }
 
+float *operationchain(struct Handler *handler, int *length, int buf_size, float *res) {
+	if (handler->source->source == NULL) {
+		PyGILState_STATE gstate = PyGILState_Ensure();
+		PyObject *pIterator = (PyObject *)handler->module;
+		Py_INCREF(pIterator);
+		PyObject *pItem;
+		res = NULL;
+		int i = 0;
+		float magic = 3.14;
+		for (int j = 0; j < buf_size; j++) {
+			if ((pItem = PyIter_Next(pIterator)) != NULL) {
+				i++;
+				res = (float *)realloc(res, (i + 1) * sizeof(float));
+				float tmp = (float)PyFloat_AsDouble(pItem);
+				tmp = handler->cmp((void *)&tmp, (void *)&magic);
+				res[i - 1] = tmp;
+				Py_DECREF(pItem);
+			} else {
+				break;
+			}
+		}
+		Py_DECREF(pIterator);
+		PyGILState_Release(gstate);
+		*length = i;
+		return res;
+	} else {
+		res = operationchain(handler->source, length, buf_size, res);
+		if (res == NULL) {
+			return NULL;
+		}
+		int i = 0;
+		float magic = 3.14;
+		for (int j = 0; j < *length; j++) {
+			i++;
+			float tmp = res[j];
+			tmp = handler->cmp((void *)&tmp, (void *)&magic);
+			res[j] = tmp;
+		}
+		*length = i;
+		return res;
+	}
+}
+
 struct Handler *createHandler(void *data, struct Handler *source, float (*cmp)(void *, void *),
 			      void *pyobj) {
 	struct Handler *obj = malloc(sizeof(struct Handler));
