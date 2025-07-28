@@ -13,11 +13,18 @@ c_def = """"""
 headers = ''
 src = []
 
+
 # Read and get C headers
 for item in project_dir.rglob("*.h"):
     with open(item, "r") as f:
         c_def += f.read()
         headers += f"#include \"{item.relative_to(project_dir)}\"\n"
+
+print("CDEF \n")
+print(c_def)
+
+print("\n HEADERS \n")
+print(headers)
 
 # Get list of path to all *.c files
 for item in (project_dir / c_sources).rglob("*.c"):
