@@ -14,7 +14,7 @@ class CSimpleDataProvider(DataProvider[float]):
         ffi = cffi.FFI()
         super().__init__()
         self.data = data
-        self.handler = createHandler(ffi.NULL, ffi.NULL, sumFloat, ffi.NULL)
+        self.handler = createHandler(ffi.NULL, ffi.NULL, addFive, ffi.NULL)
 
     def __iter__(self) -> Iterator[float]:
         """Create an iterator over the provided data collection.

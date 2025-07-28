@@ -5,118 +5,47 @@
 
 #define error(...) (fprintf(stderr, __VA_ARGS__))
 
-float sumFloat(void *first, void *second) {
-	float *one = (float *)first;
-	float *two = (float *)second;
-	float sum = 0;
-	sum = *one + *two;
-	return sum;
+struct Handler *createHandler(void *data, struct Handler *source, float (*cmp)(void *),
+			      void *pyobj) {
+	struct Handler *obj = malloc(sizeof(struct Handler));
+	if (obj == NULL) {
+		error("The function could not allocate memory for Handler \n");
+		return NULL;
+	}
+	obj->data = data;
+	obj->cmp = cmp;
+	obj->module = pyobj;
+	obj->source = source;
+	obj->bufsize = 0;
+	obj->buffer = NULL;
+	return obj;
 }
 
-float multFloat(void *first, void *second) {
-	float *one = (float *)first;
-	float *two = (float *)second;
-	float sum = 0;
-	sum = *one * *two;
-	return sum;
+void freeHandler(struct Handler *handler) {
+	if (handler->buffer != NULL) {
+		free(handler->buffer);
+	}
+	free(handler);
 }
 
-float sumInt(void *first, void *second) {
-	int *one = (int *)first;
-	int *two = (int *)second;
-	int sum = 0;
-	sum = *one + *two;
-	return (float)sum;
+struct Handler *getSource(struct Handler *handler) {
+	if (handler == NULL) {
+		error("Handler pointer is NULL \n");
+		return NULL;
+	}
+	return handler->source;
 }
 
-float multInt(void *first, void *second) {
-	int *one = (int *)first;
-	int *two = (int *)second;
-	int sum = 0;
-	sum = *one * *two;
-	return (float)sum;
-}
-
-float sumdiv(void *first, void *second) {
-	float *one = (float *)first;
-	float *two = (float *)second;
-	float sum = 0;
-	sum = (*one + *two) / *two;
-	return (float)sum;
+void *getPipelineFirst(struct Handler *handler) {
+	if (handler->source == NULL) {
+		return handler->module;
+	}
+	return getPipelineFirst(handler->source);
 }
 
 void seeHandler(struct Handler *handler) {
 	struct Handler tt = *handler;
 	printf("%p %p %p %p \n", tt.data, tt.source, tt.cmp, tt.module);
-}
-
-/* applyHandler берет из хенделера модуль (python class)
- * Из него достаёт итератор
- * и идёт по нему
- */
-
-int applyHandler(struct Handler *handler) {
-	if (handler == NULL) {
-		error("Handler pointer is NULL \n");
-		return -1;
-	}
-	if (handler->module == NULL) {
-		error("PythonModule pointer is NULL \n");
-		return -1;
-	}
-	PyGILState_STATE gstate = PyGILState_Ensure();
-	PyObject *obj = (PyObject *)handler->module;
-	PyObject *pInstance = obj;
-	PyObject *pIterator = PyObject_GetIter(pInstance);
-	PyObject *pItem;
-	int one = 2;
-	if ((pItem = PyIter_Next(pIterator)) != NULL) {
-		int tmp = PyLong_AsLong(pItem);
-		tmp = handler->cmp((void *)&tmp, (void *)&one);
-		printf("%d \n", tmp);
-		PyGILState_Release(gstate);
-		return (int)tmp;
-	}
-	PyGILState_Release(gstate);
-	return -1;
-}
-
-/* applyOperation берет из source хендлера модуль (python class)
- * Из него достаёт итератор
- * Применяет свою операцию к элементам из полученного итератора
- */
-
-float *applyOperation(struct Handler *handler, int *length) {
-	if (handler == NULL) {
-		error("Handler pointer is NULL \n");
-		return NULL;
-	}
-	if (handler->source == NULL) {
-		error("Handler source pointer is NULL \n");
-		return NULL;
-	}
-	if (handler->source->module == NULL) {
-		error("PythonModule pointer is NULL \n");
-		return NULL;
-	}
-	PyGILState_STATE gstate = PyGILState_Ensure();
-	PyObject *obj = (PyObject *)handler->source->module;
-	PyObject *pInstance = obj;
-	PyObject *pIterator = PyObject_GetIter(pInstance);
-	PyObject *pItem;
-	float magic = 3.14;
-	float *res = NULL;
-	int i = 0;
-	while ((pItem = PyIter_Next(pIterator)) != NULL) {
-		i++;
-		res = (float *)realloc(res, (i + 1) * sizeof(float));
-		float tmp = (float)PyFloat_AsDouble(pItem);
-		tmp = handler->cmp((void *)&tmp, (void *)&magic);
-		res[i - 1] = tmp;
-	}
-	PyGILState_Release(gstate);
-	*length = i;
-	return res;
 }
 
 /* applyIter берет из  хендлера итератор
@@ -136,14 +65,13 @@ float *applyIter(struct Handler *handler, int *length) {
 	PyObject *pIterator = (PyObject *)handler->module;
 	Py_INCREF(pIterator);
 	PyObject *pItem;
-	float magic = 3.14;
 	float *res = NULL;
 	int i = 0;
 	if ((pItem = PyIter_Next(pIterator)) != NULL) {
 		i++;
 		res = (float *)realloc(res, (i + 1) * sizeof(float));
 		float tmp = (float)PyFloat_AsDouble(pItem);
-		tmp = handler->cmp((void *)&tmp, (void *)&magic);
+		tmp = handler->cmp((void *)&tmp);
 		res[i - 1] = tmp;
 		Py_DECREF(pItem);
 	}
@@ -157,29 +85,38 @@ float *applyIter(struct Handler *handler, int *length) {
  * Но достает по несколько элементов из итератора
  */
 
-float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
+float *nextBuffer(struct Handler *handler, int buf_size) {
+	// check handler existence
 	if (handler == NULL) {
 		error("Handler pointer is NULL \n");
 		return NULL;
 	}
-	if (handler->source == NULL) {
-		error("Handler source pointer is NULL \n");
-		return NULL;
+	float *res = NULL;
+	// return next element, if buffer is not empty
+	if (handler->bufsize > 0) {
+		res = (float *)handler->buffer;
+		handler->bufsize--;
+		return &res[buf_size - handler->bufsize - 1];
 	}
+	// create buffer, if it doesn't exist
+	if (handler->buffer == NULL) {
+		handler->buffer = (void *)malloc(buf_size * sizeof(float));
+	}
+	
+	//Setting up future work with Python iterator
 	PyGILState_STATE gstate = PyGILState_Ensure();
 	PyObject *pIterator = (PyObject *)handler->module;
 	Py_INCREF(pIterator);
 	PyObject *pItem;
-	float magic = 3.14;
-	float *res = NULL;
-	int i = 0;
-	for (int j = 0; j < buf_size; j++) {
+	
+	// Get elements from iterator into buffer
+	res = (float *)handler->buffer;
+	for (int j = handler->bufsize; j < buf_size; j++) {
 		if ((pItem = PyIter_Next(pIterator)) != NULL) {
-			i++;
-			res = (float *)realloc(res, (i + 1) * sizeof(float));
+			handler->bufsize++;
 			float tmp = (float)PyFloat_AsDouble(pItem);
-			tmp = handler->cmp((void *)&tmp, (void *)&magic);
-			res[i - 1] = tmp;
+			tmp = handler->cmp((void *)&tmp);
+			res[handler->bufsize - 1] = tmp;
 			Py_DECREF(pItem);
 		} else {
 			break;
@@ -187,8 +124,13 @@ float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
 	}
 	Py_DECREF(pIterator);
 	PyGILState_Release(gstate);
-	*length = i;
-	return res;
+	
+	// return NULL. if we don't get elements from iterator
+	if (handler->bufsize == 0) {
+		return NULL;
+	}
+	handler->bufsize--;
+	return &res[buf_size - handler->bufsize - 1];
 }
 
 /* operationchain реализуют цепочку операций
@@ -197,23 +139,34 @@ float *nextBuffer(struct Handler *handler, int *length, int buf_size) {
  * И дальше последовательно применяет к данным операции
  */
 
-float *operationchain(struct Handler *handler, int *length, int buf_size, float *res) {
+float *operationchain(struct Handler *handler, int buf_size) {
 	if (handler->source->source == NULL) { // Нашли handler(NULL, float)
+		if (handler == NULL) {
+			error("Handler pointer is NULL \n");
+			return NULL;
+		}
+		float *res = NULL;
+		if (handler->bufsize > 0) {
+			res = (float *)handler->buffer;
+			handler->bufsize--;
+			return &res[buf_size - handler->bufsize - 1];
+		}
+
+		if (handler->buffer == NULL) {
+			handler->buffer = (void *)malloc(buf_size * sizeof(float));
+		}
+
 		PyGILState_STATE gstate = PyGILState_Ensure();
 		PyObject *pIterator = (PyObject *)handler->module;
 		Py_INCREF(pIterator);
 		PyObject *pItem;
-		res = NULL;
-		int i = 0;
-		float magic = 3.14;
-		// Достаём из итератора buf_size элементов, применяем операцию и записываем в массив
-		for (int j = 0; j < buf_size; j++) {
+		res = (float *)handler->buffer;
+		for (int j = handler->bufsize; j < buf_size; j++) {
 			if ((pItem = PyIter_Next(pIterator)) != NULL) {
-				i++;
-				res = (float *)realloc(res, (i + 1) * sizeof(float));
+				handler->bufsize++;
 				float tmp = (float)PyFloat_AsDouble(pItem);
-				tmp = handler->cmp((void *)&tmp, (void *)&magic);
-				res[i - 1] = tmp;
+				tmp = handler->cmp((void *)&tmp);
+				res[handler->bufsize - 1] = tmp;
 				Py_DECREF(pItem);
 			} else {
 				break;
@@ -221,58 +174,39 @@ float *operationchain(struct Handler *handler, int *length, int buf_size, float 
 		}
 		Py_DECREF(pIterator);
 		PyGILState_Release(gstate);
-		*length = i;
-		// Возвращаем массив с данными
-		return res;
-	} else {
-		// Рекурсивно идём по source, пока не дойдем до handler(NULL, float)
-		res = operationchain(handler->source, length, buf_size, res);
-		if (res == NULL) {
+		if (handler->bufsize == 0) {
 			return NULL;
 		}
-		// Применяем операцию к массиву с данными от прыдыдущей операции
-		int i = 0;
-		float magic = 3.14;
-		for (int j = 0; j < *length; j++) {
-			i++;
-			float tmp = res[j];
-			tmp = handler->cmp((void *)&tmp, (void *)&magic);
-			res[j] = tmp;
+		handler->bufsize--;
+		return &res[buf_size - handler->bufsize - 1];
+	} else {
+		// Рекурсивно идём по source, пока не дойдем до handler(NULL, float)
+		if (handler->buffer == NULL) {
+			handler->buffer = (void *)malloc(buf_size * sizeof(float));
 		}
-		*length = i;
-		return res;
-	}
-}
 
-struct Handler *createHandler(void *data, struct Handler *source, float (*cmp)(void *, void *),
-			      void *pyobj) {
-	struct Handler *obj = malloc(sizeof(struct Handler));
-	if (obj == NULL) {
-		error("The function could not allocate memory for Handler \n");
-		return NULL;
+		float *res = (float *)handler->buffer;
+		if (handler->bufsize > 0) {
+			handler->bufsize--;
+			return &res[buf_size - handler->bufsize - 1];
+		}
+		for (int i = 0; i < buf_size; i++) {
+			float *prev = operationchain(handler->source, buf_size);
+			if (prev != NULL) {
+				handler->bufsize++;
+				float tmp = prev[0];
+				tmp = handler->cmp((void *)&tmp);
+				res[handler->bufsize - 1] = tmp;
+			} else {
+				break;
+			}
+		}
+		if (handler->bufsize == 0) {
+			return NULL;
+		}
+		handler->bufsize--;
+		return &res[buf_size - handler->bufsize - 1];
 	}
-	obj->data = data;
-	obj->cmp = cmp;
-	obj->module = pyobj;
-	obj->source = source;
-	return obj;
-}
-
-void freeHandler(struct Handler *handler) { free(handler); }
-
-struct Handler *getSource(struct Handler *handler) {
-	if (handler == NULL) {
-		error("Handler pointer is NULL \n");
-		return NULL;
-	}
-	return handler->source;
-}
-
-void *getPipelineFirst(struct Handler *handler) {
-	if (handler->source == NULL) {
-		return handler->module;
-	}
-	return getPipelineFirst(handler->source);
 }
 
 /*
