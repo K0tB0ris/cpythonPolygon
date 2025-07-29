@@ -29,8 +29,8 @@ static int tsp_queue_put(struct tsp_queue *q, float value) {
 	return 0;
 }
 
-static float tsp_queue_get(struct tsp_queue *q) {
-	float value = q->buffer[q->head];
+static double tsp_queue_get(struct tsp_queue *q) {
+	double value = q->buffer[q->head];
 	q->head = (q->head + 1) % q->capacity;
 	return value;
 }
