@@ -1,20 +1,13 @@
-float addFive(void *first) {
-	float *one = (float *)first;
-	float sum = 0;
+double tsp_op_addFive(struct tsp_handler *handler, void *first) {
+	double *one = (double *)first;
+	double sum = 0;
 	sum = *one + 5;
 	return sum;
 }
 
-float multFive(void *first) {
-	float *one = (float *)first;
-	float sum = 0;
+double tsp_op_multFive(struct tsp_handler *handler, void *first) {
+	double *one = (double *)first;
+	double sum = 0;
 	sum = *one * 5;
-	return sum;
-}
-
-float adddivTwo(void *first) {
-	float *one = (float *)first;
-	float sum = 0;
-	sum = (*one + 2) / 2;
 	return sum;
 }

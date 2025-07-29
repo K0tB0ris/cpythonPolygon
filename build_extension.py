@@ -13,7 +13,6 @@ c_def = """"""
 headers = ''
 src = []
 
-
 # Read and get C headers
 for item in project_dir.rglob("*.h"):
     with open(item, "r") as f:
@@ -31,8 +30,9 @@ for item in (project_dir / c_sources).rglob("*.c"):
     src.append(str(item.relative_to(current_dir)))
 
 # Set options to compile C library
-ffibuilder.set_source(f"{project_name}._c", headers, sources=src)
 ffibuilder.cdef(c_def)
+ffibuilder.set_source(f"{project_name}._c", headers, sources=src,
+                      extra_compile_args=['-fno-omit-frame-pointer', '-Wall', '-Wextra'])
 
 # Compile C library
 if __name__ == "__main__":
