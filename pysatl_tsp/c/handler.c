@@ -15,7 +15,8 @@ struct tsp_handler *tsp_init_handler(void *data, struct tsp_handler *src,
 	obj->operation = operation;
 	obj->py_iter = (PyObject *)pyobj;
 	obj->src = src;
-	obj->buf_size = 0;
+	obj->buf_start = 0;
+	obj->buf_end = 0;
 	obj->buffer = NULL;
 	return obj;
 }
@@ -29,7 +30,7 @@ void tsp_free_handler(struct tsp_handler *handler) {
 
 /* tsp_next_buffer apply operation to the next element from the iterator */
 
-double *tsp_next_buffer(struct tsp_handler *handler, int buf_size) {
+double *tsp_next_buffer(struct tsp_handler *handler, int capacity) {
 	// check handler existence
 	if (handler == NULL) {
 		fprintf(stderr, "Handler pointer is NULL \n");
@@ -38,15 +39,14 @@ double *tsp_next_buffer(struct tsp_handler *handler, int buf_size) {
 
 	double *res = NULL;
 	// return next element, if buffer is not empty
-	if (handler->buf_size > 0) {
+	if (handler->buf_start != handler->buf_end) {
 		res = (double *)handler->buffer;
-		handler->buf_size--;
-		return &res[buf_size - handler->buf_size - 1];
+		return &res[handler->buf_start++];
 	}
 
 	// create buffer, if it doesn't exist
 	if (handler->buffer == NULL) {
-		handler->buffer = (void *)malloc(buf_size * sizeof(double));
+		handler->buffer = (void *)malloc(capacity * sizeof(double));
 	}
 
 	// Setting up future work with Python iterator
@@ -57,12 +57,13 @@ double *tsp_next_buffer(struct tsp_handler *handler, int buf_size) {
 
 	// Get elements from iterator into buffer
 	res = (double *)handler->buffer;
-	for (int j = handler->buf_size; j < buf_size; j++) {
+	handler->buf_start = 0;
+	handler->buf_end = 0;
+	for (int j = 0; j < capacity; j++) {
 		if ((pItem = PyIter_Next(pIterator)) != NULL) {
-			handler->buf_size++;
 			double tmp = PyFloat_AsDouble(pItem);
 			tmp = handler->operation(handler, (void *)&tmp);
-			res[handler->buf_size - 1] = tmp;
+			res[handler->buf_end++] = tmp;
 			Py_DECREF(pItem);
 		} else {
 			break;
@@ -72,12 +73,10 @@ double *tsp_next_buffer(struct tsp_handler *handler, int buf_size) {
 	PyGILState_Release(gstate);
 
 	// return NULL, if we don't get elements from iterator
-	if (handler->buf_size == 0) {
+	if (handler->buf_start == handler->buf_end) {
 		return NULL;
 	}
-
-	handler->buf_size--;
-	return &res[buf_size - handler->buf_size - 1];
+	return &res[handler->buf_start++];
 }
 
 /* tsp_next_chain implements a chain of operations
@@ -86,42 +85,40 @@ double *tsp_next_buffer(struct tsp_handler *handler, int buf_size) {
  * And then sequentially applies operations to the data
  */
 
-double *tsp_next_chain(struct tsp_handler *handler, int buf_size) {
+double *tsp_next_chain(struct tsp_handler *handler, int capacity) {
 	if (handler->src == NULL) {
 		// Find handler(NULL, float)
-		return tsp_next_buffer(handler, buf_size);
+		return tsp_next_buffer(handler, capacity);
 	} else {
 		// create buffer, if it doesn't exist
 		if (handler->buffer == NULL) {
-			handler->buffer = (void *)malloc(buf_size * sizeof(double));
+			handler->buffer = (void *)malloc(capacity * sizeof(double));
 		}
 
 		// return next element, if buffer is not empty
 		double *res = (double *)handler->buffer;
-		if (handler->buf_size > 0) {
-			handler->buf_size--;
-			return &res[buf_size - handler->buf_size - 1];
+		if (handler->buf_start != handler->buf_end) {
+			return &res[handler->buf_start++];
 		}
 
 		// Apply operation to the previous results
-		for (int i = 0; i < buf_size; i++) {
-			double *prev = tsp_next_chain(handler->src, buf_size);
+		handler->buf_start = 0;
+		handler->buf_end = 0;
+		for (int i = 0; i < capacity; i++) {
+			double *prev = tsp_next_chain(handler->src, capacity);
 			if (prev != NULL) {
-				handler->buf_size++;
 				double tmp = prev[0];
 				tmp = handler->operation(handler, (void *)&tmp);
-				res[handler->buf_size - 1] = tmp;
+				res[handler->buf_end++] = tmp;
 			} else {
 				break;
 			}
 		}
 
 		// return NULL, if we don't have elements in buffer
-		if (handler->buf_size == 0) {
+		if (handler->buf_start == handler->buf_end) {
 			return NULL;
 		}
-
-		handler->buf_size--;
-		return &res[buf_size - handler->buf_size - 1];
+		return &res[handler->buf_start++];
 	}
 }

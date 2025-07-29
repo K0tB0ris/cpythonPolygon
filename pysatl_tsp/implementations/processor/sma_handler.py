@@ -125,10 +125,11 @@ class CMAHandler(Handler[float, float]):
     ):
 
         super().__init__(source=source)
+        self.length = length if length and length > 0 else 10
         if source is not None:
-            self.handler = tsp_init_handler(ffi.cast("void *", tsp_queue_init(3)), source.handler, tsp_op_MA, ffi.NULL)
+            self.handler = tsp_init_handler(ffi.cast("void *", tsp_queue_init(self.length)), source.handler, tsp_op_MA, ffi.NULL)
         else:
-            self.handler = tsp_init_handler(ffi.cast("void *", tsp_queue_init(3)), ffi.NULL, tsp_op_MA, ffi.NULL)
+            self.handler = tsp_init_handler(ffi.cast("void *", tsp_queue_init(self.length)), ffi.NULL, tsp_op_MA, ffi.NULL)
 
 
     def __iter__(self) -> Iterator[float | None]:

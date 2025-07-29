@@ -3,7 +3,8 @@ typedef struct _object PyObject;
 struct tsp_handler {
 	void *data;
 	void *buffer;
-	int buf_size;
+	int buf_start;
+	int buf_end;
 	struct tsp_handler *src;
 	double (*operation)(struct tsp_handler *handler, void *);
 	PyObject *py_iter;
@@ -15,7 +16,7 @@ struct tsp_queue {
 	int head;
 	int tail;
 	int size;
-	float sum;
+	double sum;
 };
 
 struct tsp_queue *tsp_queue_init(int capacity);
@@ -26,5 +27,5 @@ struct tsp_handler *tsp_init_handler(void *data, struct tsp_handler *src,
 				     double (*operation)(struct tsp_handler *handler, void *),
 				     void *pyobj);
 void tsp_free_handler(struct tsp_handler *handler);
-double *tsp_next_buffer(struct tsp_handler *handler, int buf_size);
-double *tsp_next_chain(struct tsp_handler *handler, int buf_size);
+double *tsp_next_buffer(struct tsp_handler *handler, int capacity);
+double *tsp_next_chain(struct tsp_handler *handler, int capacity);
