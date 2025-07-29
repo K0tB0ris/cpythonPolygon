@@ -1,14 +1,10 @@
 from collections.abc import Iterator
 from typing import Any
 from pysatl_tsp.core import Handler
-from pysatl_tsp._c.lib import createHandler
-from pysatl_tsp._c.lib import freeHandler
-from pysatl_tsp._c.lib import nextItem
-from pysatl_tsp._c.lib import operationchain
-from pysatl_tsp._c.lib import addFive
-from pysatl_tsp._c.lib import multFive
 from pysatl_tsp.core.data_providers import SimpleDataProvider
 import cffi
+from pysatl_tsp._c.lib import *
+
 
 ffi = cffi.FFI()
 
@@ -18,27 +14,26 @@ class CSumHandler(Handler[float, float]):
     def __init__(self, source: Handler[Any, float] | None = None):
         super().__init__(source)
         if source is not None:
-            self.handler = createHandler(ffi.NULL, source.handler, addFive, ffi.NULL)
+            self.handler = tsp_init_handler(ffi.NULL, source.handler, tsp_op_addFive, ffi.NULL)
         else:
-            self.handler = createHandler(ffi.NULL, ffi.NULL, addFive, ffi.NULL)
+            self.handler = tsp_init_handler(ffi.NULL, ffi.NULL, tsp_op_addFive, ffi.NULL)
 
     def __iter__(self) -> Iterator[float | None]:
         if self.source is None:
             raise ValueError("Source is not set")
         self.src_itr = iter(self.source)
-        self.handler.iterator = ffi.cast("void*", id(self.src_itr))
+        self.handler.py_iter = ffi.cast("void *", id(self.src_itr))
         return self
 
     def __next__(self):
-        print("next")
-        res = nextItem(self.handler, 5)
+        res = tsp_next_buffer(self.handler, 5)
         if res != ffi.NULL:
             return res[0]
         else:
             raise StopIteration
 
     def __del__(self):
-        freeHandler(self.handler)
+        tsp_free_handler(self.handler)
 
 
 class CMultHandler(Handler[float, float]):
@@ -46,31 +41,32 @@ class CMultHandler(Handler[float, float]):
     def __init__(self, source: Handler[Any, float] | None = None):
         super().__init__(source)
         if source is not None:
-            self.handler = createHandler(ffi.NULL, source.handler, multFive, ffi.NULL)
+            self.handler = tsp_init_handler(ffi.NULL, source.handler, tsp_op_multFive, ffi.NULL)
         else:
-            self.handler = createHandler(ffi.NULL, ffi.NULL, multFive, ffi.NULL)
+            self.handler = tsp_init_handler(ffi.NULL, ffi.NULL, tsp_op_multFive, ffi.NULL)
 
     def __iter__(self) -> Iterator[float | None]:
         if self.source is None:
             raise ValueError("Source is not set")
         self.src_itr = iter(self.source)
-        self.handler.iterator = ffi.cast("void*", id(self.src_itr))
+        self.handler.py_iter = ffi.cast("void*", id(self.src_itr))
         return self
 
     def __next__(self):
-        res = operationchain(self.handler, 5)
+        res = tsp_next_buffer(self.handler, 5)
         if res != ffi.NULL:
             return res[0]
         else:
             raise StopIteration
 
     def __del__(self):
-        freeHandler(self.handler)
+
+        tsp_free_handler(self.handler)
 
 
 
 data = [1.2]
-for i in range(1, 10):
+for i in range(1, 20):
     data.append(data[0] + i)
 print(data)
 provider = SimpleDataProvider(data)

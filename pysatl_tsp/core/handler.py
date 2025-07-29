@@ -110,9 +110,9 @@ class Pipeline(Handler[T, V]):
         self.second.source = self.first
         if hasattr(self.second, 'handler'):
             if hasattr(self.first, 'handler'):
-                self.second.handler.source = self.first.handler
+                self.second.handler.src = self.first.handler
             else:
-                self.second.handler.source = ffi.NULL
+                self.second.handler.src = ffi.NULL
             self.handler = self.second.handler
 
     def __iter__(self) -> Iterator[V]:
