@@ -9,7 +9,7 @@ from pysatl_tsp._c.lib import *
 ffi = cffi.FFI()
 
 
-class CSumHandler(Handler[float, float]):
+class CAddFiveHandler(Handler[float, float]):
 
     def __init__(self, source: Handler[Any, float] | None = None):
         super().__init__(source)
@@ -36,7 +36,7 @@ class CSumHandler(Handler[float, float]):
         tsp_free_handler(self.handler)
 
 
-class CMultHandler(Handler[float, float]):
+class CMultFiveHandler(Handler[float, float]):
 
     def __init__(self, source: Handler[Any, float] | None = None):
         super().__init__(source)
@@ -74,12 +74,12 @@ for elem in provider:
     print(elem, end=" ")
 print("\n-----------------------")
 
-pipeline = (provider | CSumHandler() | CSumHandler() | CSumHandler()  )
+pipeline = (provider | CAddFiveHandler() | CAddFiveHandler() | CAddFiveHandler())
 for elem in pipeline:
     print(elem)
 print("--------------------------------------------------------\n")
 
-pipeline1 = (provider | CSumHandler() | CSumHandler()| CMultHandler())
+pipeline1 = (provider | CAddFiveHandler() | CAddFiveHandler() | CMultFiveHandler())
 for elem in pipeline1:
     print(elem, end=" ")
 print("\n\n--------------------------------------------------------\n")

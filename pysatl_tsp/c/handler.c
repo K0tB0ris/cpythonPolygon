@@ -80,8 +80,7 @@ double *tsp_next_buffer(struct tsp_handler *handler, int capacity) {
 }
 
 /* tsp_next_chain implements a chain of operations
- * Works recursively
- * Follows the chain until it will meet handler(NULL, float)
+ * Follows the chain until it will meet hadnler with source = NULL
  * And then sequentially applies operations to the data
  */
 

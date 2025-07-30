@@ -3,8 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-/* init circulat queue */
+/* init circular queue */
 
 struct tsp_queue *tsp_queue_init(int capacity) {
 	struct tsp_queue *obj = malloc(sizeof(struct tsp_queue));
@@ -36,7 +35,7 @@ static double tsp_queue_get(struct tsp_queue *q) {
 }
 
 void tsp_free_queue(void *q) {
-	struct tsp_queue *p = (struct tsp_queue*)q;
+	struct tsp_queue *p = (struct tsp_queue *)q;
 	if (p->buffer != NULL) {
 		free(p->buffer);
 	}
