@@ -1,232 +1,330 @@
-pass experiment 1 from 25
-pass experiment 2 from 25
-pass experiment 3 from 25
-pass experiment 4 from 25
-pass experiment 5 from 25
-pass experiment 6 from 25
-pass experiment 7 from 25
-pass experiment 8 from 25
-pass experiment 9 from 25
-pass experiment 10 from 25
-pass experiment 11 from 25
-pass experiment 12 from 25
-pass experiment 13 from 25
-pass experiment 14 from 25
-pass experiment 15 from 25
-pass experiment 16 from 25
-pass experiment 17 from 25
-pass experiment 18 from 25
-pass experiment 19 from 25
-pass experiment 20 from 25
-pass experiment 21 from 25
-pass experiment 22 from 25
-pass experiment 23 from 25
-pass experiment 24 from 25
-pass experiment 25 from 25
+pass attempt 1 experiment 1 from 25
+pass attempt 2 experiment 1 from 25
+pass attempt 3 experiment 1 from 25
+pass attempt 1 experiment 2 from 25
+pass attempt 2 experiment 2 from 25
+pass attempt 3 experiment 2 from 25
+pass attempt 1 experiment 3 from 25
+pass attempt 2 experiment 3 from 25
+pass attempt 3 experiment 3 from 25
+pass attempt 1 experiment 4 from 25
+pass attempt 2 experiment 4 from 25
+pass attempt 3 experiment 4 from 25
+pass attempt 1 experiment 5 from 25
+pass attempt 2 experiment 5 from 25
+pass attempt 3 experiment 5 from 25
+pass attempt 1 experiment 6 from 25
+pass attempt 2 experiment 6 from 25
+pass attempt 3 experiment 6 from 25
+pass attempt 1 experiment 7 from 25
+pass attempt 2 experiment 7 from 25
+pass attempt 3 experiment 7 from 25
+pass attempt 1 experiment 8 from 25
+pass attempt 2 experiment 8 from 25
+pass attempt 3 experiment 8 from 25
+pass attempt 1 experiment 9 from 25
+pass attempt 2 experiment 9 from 25
+pass attempt 3 experiment 9 from 25
+pass attempt 1 experiment 10 from 25
+pass attempt 2 experiment 10 from 25
+pass attempt 3 experiment 10 from 25
+pass attempt 1 experiment 11 from 25
+pass attempt 2 experiment 11 from 25
+pass attempt 3 experiment 11 from 25
+pass attempt 1 experiment 12 from 25
+pass attempt 2 experiment 12 from 25
+pass attempt 3 experiment 12 from 25
+pass attempt 1 experiment 13 from 25
+pass attempt 2 experiment 13 from 25
+pass attempt 3 experiment 13 from 25
+pass attempt 1 experiment 14 from 25
+pass attempt 2 experiment 14 from 25
+pass attempt 3 experiment 14 from 25
+pass attempt 1 experiment 15 from 25
+pass attempt 2 experiment 15 from 25
+pass attempt 3 experiment 15 from 25
+pass attempt 1 experiment 16 from 25
+pass attempt 2 experiment 16 from 25
+pass attempt 3 experiment 16 from 25
+pass attempt 1 experiment 17 from 25
+pass attempt 2 experiment 17 from 25
+pass attempt 3 experiment 17 from 25
+pass attempt 1 experiment 18 from 25
+pass attempt 2 experiment 18 from 25
+pass attempt 3 experiment 18 from 25
+pass attempt 1 experiment 19 from 25
+pass attempt 2 experiment 19 from 25
+pass attempt 3 experiment 19 from 25
+pass attempt 1 experiment 20 from 25
+pass attempt 2 experiment 20 from 25
+pass attempt 3 experiment 20 from 25
+pass attempt 1 experiment 21 from 25
+pass attempt 2 experiment 21 from 25
+pass attempt 3 experiment 21 from 25
+pass attempt 1 experiment 22 from 25
+pass attempt 2 experiment 22 from 25
+pass attempt 3 experiment 22 from 25
+pass attempt 1 experiment 23 from 25
+pass attempt 2 experiment 23 from 25
+pass attempt 3 experiment 23 from 25
+pass attempt 1 experiment 24 from 25
+pass attempt 2 experiment 24 from 25
+pass attempt 3 experiment 24 from 25
+pass attempt 1 experiment 25 from 25
+pass attempt 2 experiment 25 from 25
+pass attempt 3 experiment 25 from 25
 pipe1 contain only n python modules and python MAHandler
 pipe2 contain n c modules and python MAHandler
 pipe1 contain only c modules and CMAHandler
 ------------------------
 experiment with 2 modules
-pipe1: 4.600199864999013 s
-pipe2: 8.380182900000364
-pipe3: 4.029368310000791
+pipe1: 4.6489 | 4.69968 | 4.67267
+pipe2: 8.35485 | 8.51324 | 8.47139
+pipe3: 4.13937 | 4.09307 | 4.04539
 ----------------------------------------
 experiment with 3 modules
-pipe1: 4.860998721000215 s
-pipe2: 8.425294198999836
-pipe3: 4.072301558000618
+pipe1: 4.89079 | 4.87529 | 4.90948
+pipe2: 8.50944 | 8.49347 | 8.49276
+pipe3: 4.13853 | 4.11441 | 4.09492
 ----------------------------------------
 experiment with 4 modules
-pipe1: 5.101148744000966 s
-pipe2: 8.440153407998878
-pipe3: 4.106839764001052
+pipe1: 5.14241 | 5.19783 | 5.1507
+pipe2: 8.58704 | 8.57877 | 8.60486
+pipe3: 4.19739 | 4.15681 | 4.19178
 ----------------------------------------
 experiment with 5 modules
-pipe1: 5.602103138999155 s
-pipe2: 8.455554459000268
-pipe3: 4.097584466999251
+pipe1: 5.61371 | 5.69213 | 5.71226
+pipe2: 8.64936 | 8.73556 | 8.70859
+pipe3: 4.27885 | 4.28628 | 4.28641
 ----------------------------------------
 experiment with 6 modules
-pipe1: 5.91927161500098 s
-pipe2: 8.54221290500027
-pipe3: 4.169583174998479
+pipe1: 6.00848 | 6.04826 | 6.05736
+pipe2: 8.74371 | 8.70597 | 8.7231
+pipe3: 4.27347 | 4.29502 | 4.24872
 ----------------------------------------
 experiment with 7 modules
-pipe1: 6.159306535000724 s
-pipe2: 8.57620081999994
-pipe3: 4.211626276999596
+pipe1: 6.25764 | 6.27688 | 6.34527
+pipe2: 8.90301 | 8.75852 | 8.86142
+pipe3: 4.38765 | 4.36805 | 4.33372
 ----------------------------------------
 experiment with 8 modules
-pipe1: 6.570714481998948 s
-pipe2: 8.630307671000992
-pipe3: 4.234386041000107
+pipe1: 6.67207 | 6.67862 | 6.65331
+pipe2: 8.85547 | 8.79448 | 8.79312
+pipe3: 4.49311 | 4.40107 | 4.38306
 ----------------------------------------
 experiment with 9 modules
-pipe1: 6.828647545999047 s
-pipe2: 8.696219852001377
-pipe3: 4.364523278998604
+pipe1: 7.01206 | 6.92578 | 6.89296
+pipe2: 8.86832 | 8.88011 | 8.8583
+pipe3: 4.52274 | 4.4414 | 4.51198
 ----------------------------------------
 experiment with 10 modules
-pipe1: 7.0820028289999755 s
-pipe2: 8.757333618001212
-pipe3: 4.477456332999282
+pipe1: 7.12772 | 7.12868 | 7.15287
+pipe2: 9.04885 | 8.96407 | 8.99811
+pipe3: 4.58412 | 4.54846 | 4.54151
 ----------------------------------------
 experiment with 11 modules
-pipe1: 7.3213557330000185 s
-pipe2: 8.787056577999465
-pipe3: 4.496433549000358
+pipe1: 7.3961 | 7.35302 | 7.3792
+pipe2: 9.09664 | 8.99328 | 9.00878
+pipe3: 4.61565 | 4.60206 | 4.62906
 ----------------------------------------
 experiment with 12 modules
-pipe1: 7.582612688998779 s
-pipe2: 8.89057201900141
-pipe3: 4.539518775998658
+pipe1: 7.63299 | 7.64936 | 7.66961
+pipe2: 9.0599 | 9.06976 | 9.07372
+pipe3: 4.64345 | 4.66359 | 4.65717
 ----------------------------------------
 experiment with 13 modules
-pipe1: 7.904306493999684 s
-pipe2: 8.966503579000346
-pipe3: 4.6555686369993055
+pipe1: 7.89606 | 7.8863 | 7.88377
+pipe2: 9.15577 | 9.09176 | 9.1611
+pipe3: 4.70898 | 4.68894 | 4.68366
 ----------------------------------------
 experiment with 14 modules
-pipe1: 8.15550656599953 s
-pipe2: 9.1264693789999
-pipe3: 4.634683664000477
+pipe1: 8.13987 | 8.13783 | 8.17403
+pipe2: 9.22144 | 9.20533 | 9.23326
+pipe3: 4.74326 | 4.76692 | 4.74658
 ----------------------------------------
 experiment with 15 modules
-pipe1: 8.357908891999614 s
-pipe2: 9.048448121000547
-pipe3: 4.640863081000134
+pipe1: 8.42747 | 8.36363 | 8.40076
+pipe2: 9.3209 | 9.2918 | 9.33179
+pipe3: 4.88513 | 4.87085 | 4.82384
 ----------------------------------------
 experiment with 16 modules
-pipe1: 8.596424241999557 s
-pipe2: 9.11975887600056
-pipe3: 4.7441627779990085
+pipe1: 8.64368 | 8.63466 | 8.67223
+pipe2: 9.24154 | 9.25569 | 9.24803
+pipe3: 4.96098 | 4.88677 | 4.91103
 ----------------------------------------
 experiment with 17 modules
-pipe1: 8.797625479999624 s
-pipe2: 9.116973123000207
-pipe3: 4.793550905000302
+pipe1: 8.86686 | 8.91286 | 8.91694
+pipe2: 9.47952 | 9.38962 | 9.40458
+pipe3: 4.91938 | 4.91993 | 4.92909
 ----------------------------------------
 experiment with 18 modules
-pipe1: 9.077536067999972 s
-pipe2: 9.213150384999608
-pipe3: 4.927321089999168
+pipe1: 9.16697 | 9.36247 | 9.18565
+pipe2: 9.34396 | 9.41666 | 9.58317
+pipe3: 5.10098 | 4.96342 | 5.13811
 ----------------------------------------
 experiment with 19 modules
-pipe1: 9.334935672000938 s
-pipe2: 9.277896817999135
-pipe3: 4.8814228720002575
+pipe1: 9.39355 | 9.44635 | 9.45303
+pipe2: 9.44375 | 9.51282 | 9.67968
+pipe3: 5.07298 | 5.05812 | 5.07244
 ----------------------------------------
 experiment with 20 modules
-pipe1: 9.583492610001485 s
-pipe2: 9.289374026999212
-pipe3: 4.9839609320006275
+pipe1: 9.65461 | 9.62041 | 9.65157
+pipe2: 9.53966 | 9.5694 | 9.54998
+pipe3: 5.13955 | 5.1301 | 5.12046
 ----------------------------------------
 experiment with 21 modules
-pipe1: 9.847654819999661 s
-pipe2: 9.37431887799903
-pipe3: 5.054813169001136
+pipe1: 9.83795 | 9.8551 | 9.85518
+pipe2: 9.55436 | 9.60847 | 9.56345
+pipe3: 5.18549 | 5.21475 | 5.14076
 ----------------------------------------
 experiment with 22 modules
-pipe1: 10.043932205999226 s
-pipe2: 9.353944316000707
-pipe3: 5.1008982170005766
+pipe1: 10.09573 | 10.0955 | 10.04371
+pipe2: 9.66501 | 9.66522 | 9.65583
+pipe3: 5.22473 | 5.26881 | 5.26003
 ----------------------------------------
 experiment with 23 modules
-pipe1: 10.3184491789998 s
-pipe2: 9.448478664000504
-pipe3: 5.212525767999978
+pipe1: 10.33141 | 10.4239 | 10.42917
+pipe2: 9.66833 | 9.72729 | 9.73208
+pipe3: 5.23816 | 5.20957 | 5.24176
 ----------------------------------------
 experiment with 24 modules
-pipe1: 10.51606538300075 s
-pipe2: 9.48264942700007
-pipe3: 5.1429260929999145
+pipe1: 10.64662 | 10.57683 | 10.65866
+pipe2: 9.7454 | 9.72125 | 9.75642
+pipe3: 5.30925 | 5.35116 | 5.32963
 ----------------------------------------
 experiment with 25 modules
-pipe1: 10.847753632999229 s
-pipe2: 9.637371913000607
-pipe3: 5.301262597999084
+pipe1: 11.13167 | 10.94675 | 10.96363
+pipe2: 9.88992 | 9.85178 | 9.85181
+pipe3: 5.41882 | 5.37536 | 5.43199
 ----------------------------------------
 experiment with 26 modules
-pipe1: 11.116416725999443 s
-pipe2: 9.75173108800118
-pipe3: 5.337591784998949
+pipe1: 11.1364 | 11.48399 | 11.17528
+pipe2: 9.88315 | 9.82132 | 9.85434
+pipe3: 5.45956 | 5.46287 | 5.445
 ----------------------------------------
 
 /////////////////////////////////////
 
 compare only python and only c pipeline
 
-increase %12.40884  c pipeline performance with 2 modules
+increase % 10.9601  |  12.90745  |  13.42452  c pipeline performance with 2 modules
 
-increase %16.225  c pipeline performance with 3 modules
-performance difference with previous step: %3.81616
+increase % 15.38131  |  15.60682  |  16.59159  c pipeline performance with 3 modules
+pipe1 time difference with previous step: 0.2419  |  0.17561  |  0.2368
+pipe3 time difference with previous step: -0.00085  |  0.02134  |  0.04953
+difference -285.93465 | 8.22926 | 4.78135 
 
-increase %19.49186  c pipeline performance with 4 modules
-performance difference with previous step: %3.26686
+increase % 18.37696  |  20.028  |  18.61731  c pipeline performance with 4 modules
+pipe1 time difference with previous step: 0.25161  |  0.32254  |  0.24123
+pipe3 time difference with previous step: 0.05886  |  0.0424  |  0.09687
+difference 4.27454 | 7.60767 | 2.49033 
 
-increase %26.85632  c pipeline performance with 5 modules
-performance difference with previous step: %7.36445
+increase % 23.77868  |  24.69817  |  24.96127  c pipeline performance with 5 modules
+pipe1 time difference with previous step: 0.47131  |  0.4943  |  0.56155
+pipe3 time difference with previous step: 0.08146  |  0.12947  |  0.09462
+difference 5.78592 | 3.81793 | 5.93456 
 
-increase %29.55918  c pipeline performance with 6 modules
-performance difference with previous step: %2.70287
+increase % 28.87603  |  28.98758  |  29.85849  c pipeline performance with 6 modules
+pipe1 time difference with previous step: 0.39477  |  0.35613  |  0.3451
+pipe3 time difference with previous step: -0.00538  |  0.00874  |  -0.03768
+difference -73.42788 | 40.74887 | -9.15832 
 
-increase %31.62175  c pipeline performance with 7 modules
-performance difference with previous step: %2.06256
+increase % 29.88323  |  30.4106  |  31.70166  c pipeline performance with 7 modules
+pipe1 time difference with previous step: 0.24915  |  0.22862  |  0.28791
+pipe3 time difference with previous step: 0.11418  |  0.07303  |  0.08499
+difference 2.1821 | 3.13056 | 3.38754 
 
-increase %35.55669  c pipeline performance with 8 modules
-performance difference with previous step: %3.93494
+increase % 32.65789  |  34.10219  |  34.1221  c pipeline performance with 8 modules
+pipe1 time difference with previous step: 0.41443  |  0.40174  |  0.30804
+pipe3 time difference with previous step: 0.10546  |  0.03302  |  0.04935
+difference 3.92983 | 12.16667 | 6.24228 
 
-increase %36.0851  c pipeline performance with 9 modules
-performance difference with previous step: %0.52841
+increase % 35.5006  |  35.8715  |  34.5422  c pipeline performance with 9 modules
+pipe1 time difference with previous step: 0.33999  |  0.24716  |  0.23965
+pipe3 time difference with previous step: 0.02963  |  0.04033  |  0.12892
+difference 11.47602 | 6.12796 | 1.85892 
 
-increase %36.77698  c pipeline performance with 10 modules
-performance difference with previous step: %0.69188
+increase % 35.68599  |  36.19489  |  36.50783  c pipeline performance with 10 modules
+pipe1 time difference with previous step: 0.11566  |  0.2029  |  0.2599
+pipe3 time difference with previous step: 0.06139  |  0.10707  |  0.02953
+difference 1.88414 | 1.89513 | 8.80187 
 
-increase %38.58469  c pipeline performance with 11 modules
-performance difference with previous step: %1.80771
+increase % 37.59353  |  37.41275  |  37.26873  c pipeline performance with 11 modules
+pipe1 time difference with previous step: 0.26838  |  0.22434  |  0.22633
+pipe3 time difference with previous step: 0.03152  |  0.05359  |  0.08755
+difference 8.51425 | 4.18612 | 2.58506 
 
-increase %40.13252  c pipeline performance with 12 modules
-performance difference with previous step: %1.54784
+increase % 39.16598  |  39.03287  |  39.27753  c pipeline performance with 12 modules
+pipe1 time difference with previous step: 0.23688  |  0.29633  |  0.29041
+pipe3 time difference with previous step: 0.02781  |  0.06154  |  0.02811
+difference 8.51915 | 4.81545 | 10.33091 
 
-increase %41.10086  c pipeline performance with 13 modules
-performance difference with previous step: %0.96833
+increase % 40.36289  |  40.54321  |  40.59113  c pipeline performance with 13 modules
+pipe1 time difference with previous step: 0.26307  |  0.23694  |  0.21417
+pipe3 time difference with previous step: 0.06553  |  0.02534  |  0.02649
+difference 4.01462 | 9.34864 | 8.08618 
 
-increase %43.17111  c pipeline performance with 14 modules
-performance difference with previous step: %2.07025
+increase % 41.72811  |  41.42268  |  41.93103  c pipeline performance with 14 modules
+pipe1 time difference with previous step: 0.24381  |  0.25153  |  0.29026
+pipe3 time difference with previous step: 0.03428  |  0.07798  |  0.06292
+difference 7.11314 | 3.22546 | 4.61339 
 
-increase %44.47339  c pipeline performance with 15 modules
-performance difference with previous step: %1.30228
+increase % 42.03333  |  41.76157  |  42.57859  c pipeline performance with 15 modules
+pipe1 time difference with previous step: 0.2876  |  0.22581  |  0.22673
+pipe3 time difference with previous step: 0.14187  |  0.10393  |  0.07726
+difference 2.02725 | 2.17271 | 2.93467 
 
-increase %44.81237  c pipeline performance with 16 modules
-performance difference with previous step: %0.33898
+increase % 42.60571  |  43.40518  |  43.37063  c pipeline performance with 16 modules
+pipe1 time difference with previous step: 0.21621  |  0.27102  |  0.27147
+pipe3 time difference with previous step: 0.07585  |  0.01592  |  0.0872
+difference 2.85032 | 17.02364 | 3.11337 
 
-increase %45.51313  c pipeline performance with 17 modules
-performance difference with previous step: %0.70076
+increase % 44.51943  |  44.79967  |  44.72224  c pipeline performance with 17 modules
+pipe1 time difference with previous step: 0.22317  |  0.2782  |  0.24471
+pipe3 time difference with previous step: -0.0416  |  0.03316  |  0.01806
+difference -5.36518 | 8.39022 | 13.55271 
 
-increase %45.71962  c pipeline performance with 18 modules
-performance difference with previous step: %0.20649
+increase % 44.35479  |  46.98598  |  44.06372  c pipeline performance with 18 modules
+pipe1 time difference with previous step: 0.30012  |  0.44961  |  0.26871
+pipe3 time difference with previous step: 0.1816  |  0.04349  |  0.20902
+difference 1.65263 | 10.33765 | 1.28553 
 
-increase %47.70802  c pipeline performance with 19 modules
-performance difference with previous step: %1.9884
+increase % 45.99504  |  46.45428  |  46.34056  c pipeline performance with 19 modules
+pipe1 time difference with previous step: 0.22658  |  0.08388  |  0.26738
+pipe3 time difference with previous step: -0.028  |  0.0947  |  -0.06567
+difference -8.0923 | 0.88582 | -4.0717 
 
-increase %47.99432  c pipeline performance with 20 modules
-performance difference with previous step: %0.2863
+increase % 46.76582  |  46.67484  |  46.94688  c pipeline performance with 20 modules
+pipe1 time difference with previous step: 0.26106  |  0.17406  |  0.19854
+pipe3 time difference with previous step: 0.06657  |  0.07198  |  0.04801
+difference 3.92164 | 2.41809 | 4.13502 
 
-increase %48.66988  c pipeline performance with 21 modules
-performance difference with previous step: %0.67556
+increase % 47.29095  |  47.08575  |  47.837  c pipeline performance with 21 modules
+pipe1 time difference with previous step: 0.18335  |  0.23469  |  0.20362
+pipe3 time difference with previous step: 0.04594  |  0.08465  |  0.0203
+difference 3.99094 | 2.77238 | 10.02877 
 
-increase %49.21413  c pipeline performance with 22 modules
-performance difference with previous step: %0.54425
+increase % 48.24808  |  47.81035  |  47.62859  c pipeline performance with 22 modules
+pipe1 time difference with previous step: 0.25777  |  0.24041  |  0.18853
+pipe3 time difference with previous step: 0.03924  |  0.05406  |  0.11927
+difference 6.56898 | 4.44725 | 1.58063 
 
-increase %49.48344  c pipeline performance with 23 modules
-performance difference with previous step: %0.26931
+increase % 49.29868  |  50.02282  |  49.73939  c pipeline performance with 23 modules
+pipe1 time difference with previous step: 0.23569  |  0.3284  |  0.38546
+pipe3 time difference with previous step: 0.01343  |  -0.05924  |  -0.01827
+difference 17.54847 | -5.54373 | -21.09975 
 
-increase %51.09458  c pipeline performance with 24 modules
-performance difference with previous step: %1.61114
+increase % 50.13204  |  49.40676  |  49.9972  c pipeline performance with 24 modules
+pipe1 time difference with previous step: 0.3152  |  0.15294  |  0.22949
+pipe3 time difference with previous step: 0.07109  |  0.14159  |  0.08786
+difference 4.43403 | 1.0801 | 2.61191 
 
-increase %51.13032  c pipeline performance with 25 modules
-performance difference with previous step: %0.03574
+increase % 51.32067  |  50.89542  |  50.45445  c pipeline performance with 25 modules
+pipe1 time difference with previous step: 0.48505  |  0.36992  |  0.30497
+pipe3 time difference with previous step: 0.10957  |  0.02419  |  0.10236
+difference 4.42677 | 15.29046 | 2.97929 
 
-increase %51.9846  c pipeline performance with 26 modules
-performance difference with previous step: %0.85428
+increase % 50.97549  |  52.43052  |  51.27642  c pipeline performance with 26 modules
+pipe1 time difference with previous step: 0.00473  |  0.53724  |  0.21165
+pipe3 time difference with previous step: 0.04074  |  0.08752  |  0.01301
+difference 0.11598 | 6.13866 | 16.27223 
