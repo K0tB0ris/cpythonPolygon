@@ -1,0 +1,232 @@
+pass experiment 1 from 25
+pass experiment 2 from 25
+pass experiment 3 from 25
+pass experiment 4 from 25
+pass experiment 5 from 25
+pass experiment 6 from 25
+pass experiment 7 from 25
+pass experiment 8 from 25
+pass experiment 9 from 25
+pass experiment 10 from 25
+pass experiment 11 from 25
+pass experiment 12 from 25
+pass experiment 13 from 25
+pass experiment 14 from 25
+pass experiment 15 from 25
+pass experiment 16 from 25
+pass experiment 17 from 25
+pass experiment 18 from 25
+pass experiment 19 from 25
+pass experiment 20 from 25
+pass experiment 21 from 25
+pass experiment 22 from 25
+pass experiment 23 from 25
+pass experiment 24 from 25
+pass experiment 25 from 25
+pipe1 contain only n python modules and python MAHandler
+pipe2 contain n c modules and python MAHandler
+pipe1 contain only c modules and CMAHandler
+------------------------
+experiment with 2 modules
+pipe1: 4.600199864999013 s
+pipe2: 8.380182900000364
+pipe3: 4.029368310000791
+----------------------------------------
+experiment with 3 modules
+pipe1: 4.860998721000215 s
+pipe2: 8.425294198999836
+pipe3: 4.072301558000618
+----------------------------------------
+experiment with 4 modules
+pipe1: 5.101148744000966 s
+pipe2: 8.440153407998878
+pipe3: 4.106839764001052
+----------------------------------------
+experiment with 5 modules
+pipe1: 5.602103138999155 s
+pipe2: 8.455554459000268
+pipe3: 4.097584466999251
+----------------------------------------
+experiment with 6 modules
+pipe1: 5.91927161500098 s
+pipe2: 8.54221290500027
+pipe3: 4.169583174998479
+----------------------------------------
+experiment with 7 modules
+pipe1: 6.159306535000724 s
+pipe2: 8.57620081999994
+pipe3: 4.211626276999596
+----------------------------------------
+experiment with 8 modules
+pipe1: 6.570714481998948 s
+pipe2: 8.630307671000992
+pipe3: 4.234386041000107
+----------------------------------------
+experiment with 9 modules
+pipe1: 6.828647545999047 s
+pipe2: 8.696219852001377
+pipe3: 4.364523278998604
+----------------------------------------
+experiment with 10 modules
+pipe1: 7.0820028289999755 s
+pipe2: 8.757333618001212
+pipe3: 4.477456332999282
+----------------------------------------
+experiment with 11 modules
+pipe1: 7.3213557330000185 s
+pipe2: 8.787056577999465
+pipe3: 4.496433549000358
+----------------------------------------
+experiment with 12 modules
+pipe1: 7.582612688998779 s
+pipe2: 8.89057201900141
+pipe3: 4.539518775998658
+----------------------------------------
+experiment with 13 modules
+pipe1: 7.904306493999684 s
+pipe2: 8.966503579000346
+pipe3: 4.6555686369993055
+----------------------------------------
+experiment with 14 modules
+pipe1: 8.15550656599953 s
+pipe2: 9.1264693789999
+pipe3: 4.634683664000477
+----------------------------------------
+experiment with 15 modules
+pipe1: 8.357908891999614 s
+pipe2: 9.048448121000547
+pipe3: 4.640863081000134
+----------------------------------------
+experiment with 16 modules
+pipe1: 8.596424241999557 s
+pipe2: 9.11975887600056
+pipe3: 4.7441627779990085
+----------------------------------------
+experiment with 17 modules
+pipe1: 8.797625479999624 s
+pipe2: 9.116973123000207
+pipe3: 4.793550905000302
+----------------------------------------
+experiment with 18 modules
+pipe1: 9.077536067999972 s
+pipe2: 9.213150384999608
+pipe3: 4.927321089999168
+----------------------------------------
+experiment with 19 modules
+pipe1: 9.334935672000938 s
+pipe2: 9.277896817999135
+pipe3: 4.8814228720002575
+----------------------------------------
+experiment with 20 modules
+pipe1: 9.583492610001485 s
+pipe2: 9.289374026999212
+pipe3: 4.9839609320006275
+----------------------------------------
+experiment with 21 modules
+pipe1: 9.847654819999661 s
+pipe2: 9.37431887799903
+pipe3: 5.054813169001136
+----------------------------------------
+experiment with 22 modules
+pipe1: 10.043932205999226 s
+pipe2: 9.353944316000707
+pipe3: 5.1008982170005766
+----------------------------------------
+experiment with 23 modules
+pipe1: 10.3184491789998 s
+pipe2: 9.448478664000504
+pipe3: 5.212525767999978
+----------------------------------------
+experiment with 24 modules
+pipe1: 10.51606538300075 s
+pipe2: 9.48264942700007
+pipe3: 5.1429260929999145
+----------------------------------------
+experiment with 25 modules
+pipe1: 10.847753632999229 s
+pipe2: 9.637371913000607
+pipe3: 5.301262597999084
+----------------------------------------
+experiment with 26 modules
+pipe1: 11.116416725999443 s
+pipe2: 9.75173108800118
+pipe3: 5.337591784998949
+----------------------------------------
+
+/////////////////////////////////////
+
+compare only python and only c pipeline
+
+increase %12.40884  c pipeline performance with 2 modules
+
+increase %16.225  c pipeline performance with 3 modules
+performance difference with previous step: %3.81616
+
+increase %19.49186  c pipeline performance with 4 modules
+performance difference with previous step: %3.26686
+
+increase %26.85632  c pipeline performance with 5 modules
+performance difference with previous step: %7.36445
+
+increase %29.55918  c pipeline performance with 6 modules
+performance difference with previous step: %2.70287
+
+increase %31.62175  c pipeline performance with 7 modules
+performance difference with previous step: %2.06256
+
+increase %35.55669  c pipeline performance with 8 modules
+performance difference with previous step: %3.93494
+
+increase %36.0851  c pipeline performance with 9 modules
+performance difference with previous step: %0.52841
+
+increase %36.77698  c pipeline performance with 10 modules
+performance difference with previous step: %0.69188
+
+increase %38.58469  c pipeline performance with 11 modules
+performance difference with previous step: %1.80771
+
+increase %40.13252  c pipeline performance with 12 modules
+performance difference with previous step: %1.54784
+
+increase %41.10086  c pipeline performance with 13 modules
+performance difference with previous step: %0.96833
+
+increase %43.17111  c pipeline performance with 14 modules
+performance difference with previous step: %2.07025
+
+increase %44.47339  c pipeline performance with 15 modules
+performance difference with previous step: %1.30228
+
+increase %44.81237  c pipeline performance with 16 modules
+performance difference with previous step: %0.33898
+
+increase %45.51313  c pipeline performance with 17 modules
+performance difference with previous step: %0.70076
+
+increase %45.71962  c pipeline performance with 18 modules
+performance difference with previous step: %0.20649
+
+increase %47.70802  c pipeline performance with 19 modules
+performance difference with previous step: %1.9884
+
+increase %47.99432  c pipeline performance with 20 modules
+performance difference with previous step: %0.2863
+
+increase %48.66988  c pipeline performance with 21 modules
+performance difference with previous step: %0.67556
+
+increase %49.21413  c pipeline performance with 22 modules
+performance difference with previous step: %0.54425
+
+increase %49.48344  c pipeline performance with 23 modules
+performance difference with previous step: %0.26931
+
+increase %51.09458  c pipeline performance with 24 modules
+performance difference with previous step: %1.61114
+
+increase %51.13032  c pipeline performance with 25 modules
+performance difference with previous step: %0.03574
+
+increase %51.9846  c pipeline performance with 26 modules
+performance difference with previous step: %0.85428

@@ -1,13 +1,11 @@
-from pysatl_tsp.core.data_providers import SimpleDataProvider
-from pysatl_tsp.core.processor import MappingHandler
-from pysatl_tsp.core.scrubber import LinearScrubber
-from pysatl_tsp.implementations.processor.sma_handler import MAHandler
-from pysatl_tsp.implementations.processor.sma_handler import CMAHandler
-from pysatl_tsp.core import Handler
 from collections.abc import Iterator
 from typing import Any
-from pysatl_tsp._c.lib import *
 import cffi
+from pysatl_tsp.core import Handler
+from pysatl_tsp.core.data_providers import SimpleDataProvider
+from pysatl_tsp.implementations.processor.sma_handler import CMAHandler
+from pysatl_tsp.implementations.processor.sma_handler import MAHandler
+from pysatl_tsp._c.lib import *
 
 ffi = cffi.FFI()
 
@@ -58,9 +56,12 @@ for i in range(7):
 provider = SimpleDataProvider(data)
 
 import time
-rel_result = []
+
+result1 = []
+result2 = []
+result3 = []
 start_time = time.monotonic()
-cnt = 10
+cnt = 25
 pipe1 = (provider | SumHandler())
 pipe2 = (provider | CSumHandler())
 
@@ -90,10 +91,40 @@ for i in range(cnt):
     for avg in pipeline3:
         pass
     time4 = time.monotonic()
-    rel_result.append(time2 - time1)
-    rel_result.append(time3 - time2)
-    rel_result.append(time4 - time3)
-    print(f"pass experiment {i+1}")
+    result1.append(time2 - time1)
+    result1.append(time3 - time2)
+    result1.append(time4 - time3)
+    print(f"pass attempt 1 experiment {i + 1} from {cnt}")
+
+    time1 = time.monotonic()
+    for avg in pipeline1:
+        pass
+    time2 = time.monotonic()
+    for avg in pipeline2:
+        pass
+    time3 = time.monotonic()
+    for avg in pipeline3:
+        pass
+    time4 = time.monotonic()
+    result2.append(time2 - time1)
+    result2.append(time3 - time2)
+    result2.append(time4 - time3)
+    print(f"pass attempt 2 experiment {i + 1} from {cnt}")
+
+    time1 = time.monotonic()
+    for avg in pipeline1:
+        pass
+    time2 = time.monotonic()
+    for avg in pipeline2:
+        pass
+    time3 = time.monotonic()
+    for avg in pipeline3:
+        pass
+    time4 = time.monotonic()
+    result3.append(time2 - time1)
+    result3.append(time3 - time2)
+    result3.append(time4 - time3)
+    print(f"pass attempt 3 experiment {i + 1} from {cnt}")
 
 print(f"pipe1 contain only n python modules and python MAHandler")
 print(f"pipe2 contain n c modules and python MAHandler")
@@ -101,8 +132,24 @@ print(f"pipe1 contain only c modules and CMAHandler")
 print("------------------------")
 
 for i in range(cnt):
-    print(f"experiment with {i+2} modules")
-    print(f"pipe1 to pipe2: {rel_result[i*3+0]/rel_result[i*3+1]}")
-    print(f"pipe3 to pipe2: {rel_result[i*3+2]/rel_result[i*3+1]}")
-    print(f"pipe1 to pipe3: {rel_result[i*3+0]/rel_result[i*3+2]}")
+    print(f"experiment with {i + 2} modules")
+    print(f"pipe1: {round(result1[i * 3 + 0], 5)} | {round(result2[i * 3 + 0], 5)} | {round(result3[i * 3 + 0], 5)}")
+    print(f"pipe2: {round(result1[i * 3 + 1], 5)} | {round(result2[i * 3 + 1], 5)} | {round(result3[i * 3 + 1], 5)}")
+    print(f"pipe3: {round(result1[i * 3 + 2], 5)} | {round(result2[i * 3 + 2], 5)} | {round(result3[i * 3 + 2], 5)}")
     print("----------------------------------------")
+print("\n/////////////////////////////////////\n")
+print("compare only python and only c pipeline")
+for i in range(cnt):
+    print()
+    print(
+        f"increase % {round(100 * (1 - result1[i * 3 + 2] / result1[i * 3 + 0]), 5)}  |  {round(100 * (1 - result2[i * 3 + 2] / result2[i * 3 + 0]), 5)}  |  {round(100 * (1 - result3[i * 3 + 2] / result3[i * 3 + 0]), 5)}  c pipeline performance with {i + 2} modules")
+    if i > 0:
+        print(
+            f"pipe1 time difference with previous step: {round(result1[i * 3] - result1[i * 3 - 3], 5)}  |  {round(result2[i * 3] - result2[i * 3 - 3], 5)}  |  {round(result3[i * 3] - result3[i * 3 - 3], 5)}")
+
+        print(
+            f"pipe3 time difference with previous step: {round(result1[i * 3 + 2] - result1[i * 3 - 1], 5)}  |  {round(result2[i * 3 + 2] - result2[i * 3 - 1], 5)}  |  {round(result3[i * 3 + 2] - result3[i * 3 - 1], 5)}")
+        t1 = (result1[i * 3] - result1[i * 3 - 3]) / (result1[i * 3 + 2] - result1[i * 3 - 1])
+        t2 = (result2[i * 3] - result2[i * 3 - 3]) / (result2[i * 3 + 2] - result2[i * 3 - 1])
+        t3 = (result3[i * 3] - result3[i * 3 - 3]) / (result3[i * 3 + 2] - result3[i * 3 - 1])
+        print(f"difference {round(t1, 5)} | {round(t2, 5)} | {round(t3, 5)} ")
